@@ -1,0 +1,57 @@
+#include <stdio.h>
+#include <stdbool.h>
+
+// Função para calcular o valor Fp,b(d) para um dado número d na base b
+int F(int d, int p, int b) {
+    int sum = 0;
+    while (d > 0) {
+        int digit = d % b;
+        sum += digit * digit;
+        d /= b;
+    }
+    return sum;
+}
+
+// Função para verificar se um número é feliz na base 10
+bool is_happy(int n) {
+    int slow = n, fast = n;
+    do {
+        slow = F(slow, 2, 10);
+        fast = F(fast, 2, 10);
+        fast = F(fast, 2, 10);
+    } while (slow != fast);
+    return (slow == 1);
+}
+
+// Função para verificar se um número é primo
+bool is_prime(int n) {
+    if (n < 2) return false;
+    for (int i = 2; i * i <= n; i++) {
+        if (n % i == 0) return false;
+    }
+    return true;
+}
+
+int main() {
+    int n;
+    printf("Digite um inteiro positivo: ");
+    scanf("%d", &n);
+
+    // Procura o maior número primo feliz menor ou igual a n
+    int max_prime_happy = -1;
+    for (int i = n; i >= 2; i--) {
+        if (is_happy(i) && is_prime(i)) {
+            max_prime_happy = i;
+            break;
+        }
+    }
+
+    // Imprime o resultado
+    if (max_prime_happy == -1) {
+        printf("Nao existe numero primo feliz menor ou igual a %d.\n", n);
+    } else {
+        printf("O maior numero primo feliz menor ou igual a %d eh %d.\n", n, max_prime_happy);
+    }
+
+    return 0;
+}
