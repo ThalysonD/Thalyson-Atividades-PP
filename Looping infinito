@@ -1,0 +1,15 @@
+void acrescentar_arquivo(char *nome_arquivo) {
+    if ((arquivo = fopen(nome_arquivo, "a")) == NULL) {
+        printf("Erro ao abrir o arquivo!\n");
+    } else {
+        printf("Digite o texto a ser adicionado no arquivo (CTRL+D para finalizar):\n");
+        char linha[MAX_LINHA];
+        while (fgets(linha, MAX_LINHA, stdin) != NULL) {
+            if(feof(stdin)) {
+                break;
+            }
+            fprintf(arquivo, "%s", linha);
+        }
+        fclose(arquivo);
+    }
+}
